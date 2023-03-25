@@ -1,36 +1,42 @@
 import { useState } from "react";
 
-interface state {
+interface IAlert {
+    id: number;
   isVisible: boolean;
   title: string;
   description: string;
   status: "success" | "error";
 }
 
-const initialState: state = {
-  isVisible: false,
-  title: "",
-  description: "",
-  status: "success",
-};
+const TIMEOUT = 3000;
 
 export const useAlert = () => {
-  const [state, setState] = useState<state>(initialState);
+    const [alerts, setAlerts] = useState<IAlert[]>([]);
 
+    const removeAlert = (id: number) => {
+      setAlerts((prev) => prev.filter((item) => item.id !== id));
+    };
   const notifie = (
     title: string,
     description: string,
     status: "success" | "error"
   ) => {
-    setState({
-      isVisible: true,
-      title,
-      description,
-      status,
-    });
+    const id = Math.floor(Math.random() * 1000);
 
-    setTimeout(() => setState(initialState), 3000);
+    setAlerts((prev) => [
+        ...prev,
+        {
+          id,
+          isVisible: true,
+          title,
+          description,
+          status,
+          timeout: setTimeout(() => {
+            removeAlert(id);
+          }, TIMEOUT),
+        },
+      ]);
   };
 
-  return { state, notifie };
+  return { alerts, removeAlert, notifie };
 };

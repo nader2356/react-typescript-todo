@@ -26,11 +26,8 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 const Main: React.FC = () => {
   const [todoList, setTodoList] = useState<string[]>([]);
   const [newTodo, setNewTodo] = useState<string>("");
+  const { alerts, removeAlert, notifie } = useAlert();
 
-  const {
-    state: { isVisible, title, description, status },
-    notifie,
-  } = useAlert();
 
   const removeAll = () => {
     setTodoList([]);
@@ -69,6 +66,7 @@ const Main: React.FC = () => {
               placeholder="Enter your task"
               onChange={handleChange}
               value={newTodo}
+              autoFocus
             />
             <IconButton
               aria-label="add something to do"
@@ -103,20 +101,16 @@ const Main: React.FC = () => {
           </Stack>
         )}
       </Flex>
-      {isVisible && (
-        <Alert
-          position="absolute"
-          variant="left-accent"
-          top="1"
-          left="1"
-          w="xl"
-          status={status}
-        >
-          <AlertIcon />
-          <AlertTitle>{title}</AlertTitle>
-          <AlertDescription>{description}</AlertDescription>
-        </Alert>
-      )}
+      <Stack pos="absolute" left="1" top="1">
+        {alerts.map((item, i) => (
+          <Alert key={i} w="xl" status={item.status}>
+            <AlertIcon />
+            <AlertTitle>{item.title}</AlertTitle>
+            <AlertDescription>{item.description}</AlertDescription>
+            <CloseButton ml="auto" onClick={() => removeAlert(item.id)} />
+          </Alert>
+        ))}
+      </Stack>
     </Container>
   );
 };

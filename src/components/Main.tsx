@@ -31,7 +31,7 @@ const Main: React.FC = () => {
 
   const removeAll = () => {
     setTodoList([]);
-    notifie("Task", `Removed All Tasks.`, "success");
+    notifie("Task", "Removed All Tasks.", "success");
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,7 +40,7 @@ const Main: React.FC = () => {
     if (!newTodo) return notifie("Form", "Should Not Be Empty.", "error");
 
     setTodoList((prev) => [...prev, newTodo]);
-    notifie("Task", `Added ${newTodo}.`, "success");
+    notifie("Task", `Added \"${newTodo}\".`, "success");
     setNewTodo("");
   };
 
@@ -50,7 +50,7 @@ const Main: React.FC = () => {
 
   const handleRemove = (index: number) => {
     setTodoList((prev) => prev.filter((_, i) => i !== index));
-    notifie("Task", `Removed ${todoList[index]}.`, "success");
+    notifie("Task", `Removed \"${todoList[index]}\".`, "success");
   };
 
   return (
@@ -83,9 +83,7 @@ const Main: React.FC = () => {
      
                 <Flex justify="space-between" align="center" p=".5rem">
                   <Text>{item}</Text>
-                  <HStack>
                   <CloseButton onClick={() => handleRemove(i)} />
-                  </HStack>
                 </Flex>
                 <Divider />
               </Box>

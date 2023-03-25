@@ -1,8 +1,11 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { Button, useColorMode } from "@chakra-ui/react";
+
+import { useColorMode } from "@chakra-ui/react";
 import './App.css'
+import { IconButton} from "@chakra-ui/react";
+
+
+
+import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import Main from "./components/Main";
 
 const App: React.FC = () => {
@@ -11,14 +14,17 @@ const App: React.FC = () => {
   return (
     <>
       <Main />
-      <Button
+      <IconButton
+        aria-label="toggle colormode"
+        icon={colorMode === "light" ? <SunIcon /> : <MoonIcon />}
         position="absolute"
-        bottom=".5rem"
+       
+        top=".5rem"
         right=".5rem"
+        p=".4rem"
         onClick={toggleColorMode}
-      >
-        toggle color mode
-      </Button>
+        variant="ghost"
+        />
     </>
   );
 }

@@ -3,15 +3,23 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { Button, useColorMode } from "@chakra-ui/react";
 import './App.css'
+import Main from "./components/Main";
 
-function App() {
+const App: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <div>
-      <div>app</div>
-      <Button onClick={toggleColorMode}>toggle color mode</Button>
-    </div>
+    <>
+      <Main />
+      <Button
+        position="absolute"
+        bottom=".5rem"
+        right=".5rem"
+        onClick={toggleColorMode}
+      >
+        toggle color mode
+      </Button>
+    </>
   );
 }
 

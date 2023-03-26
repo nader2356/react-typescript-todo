@@ -22,16 +22,19 @@ import { useAlert } from "../hooks/useAlert";
 
 import { PlusIcon } from "@heroicons/react/24/outline";
 
-
+interface ITodo {
+  id: number;
+  body: string;
+  createdAt: Date;
+}
 const Main: React.FC = () => {
-  const [todoList, setTodoList] = useState<string[]>([]);
   const [newTodo, setNewTodo] = useState<string>("");
   const { alerts, removeAlert, notifie } = useAlert();
-
+  const [todoList, setTodoList] = useState<ITodo[]>([]);
 
   const removeAll = () => {
     setTodoList([]);
-    notifie("Task", "Removed All Tasks.", "success");
+    notifie("Task", `Removed All Tasks.`, "success");
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +42,12 @@ const Main: React.FC = () => {
 
     if (!newTodo) return notifie("Form", "Should Not Be Empty.", "error");
 
-    setTodoList((prev) => [...prev, newTodo]);
+    if (todoList.find((item) => item.body === newTodo))
+      return notifie("Task", `Task \"${newTodo}\" already exists`, "error");
+    setTodoList((prev) => [
+      ...prev,
+      { id: new Date().getTime(), body: newTodo, createdAt: new Date() },
+    ]);
     notifie("Task", `Added \"${newTodo}\".`, "success");
     setNewTodo("");
   };
@@ -50,7 +58,7 @@ const Main: React.FC = () => {
 
   const handleRemove = (index: number) => {
     setTodoList((prev) => prev.filter((_, i) => i !== index));
-    notifie("Task", `Removed \"${todoList[index]}\".`, "success");
+    notifie("Task", `Removed ${todoList[index]}.`, "success");
   };
 
   return (
@@ -76,37 +84,34 @@ const Main: React.FC = () => {
             />
           </HStack>
         </form>
-        {todoList.length > 0 && (
-          <Stack direction="column" spacing="1rem" paddingBlock="1rem">
-                {todoList
-                  .slice(0)
-                  .reverse()
-                  .map((item) => (
-                    <Box
-                      key={item.id}
-                      as={motion.div}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      layout
-                    >
-                      <Flex justify="space-between" align="center" p=".5rem">
-                        <Text>{item.body}</Text>
-                        <CloseButton onClick={() => handleRemove(item.id)} />
-                      </Flex>
-                      <Divider />
-                    </Box>
-                  ))}
-             <Button
-              bg="red.600"
-              color="white"
-              _hover={{ background: "red.700" }}
-              onClick={removeAll}
+        {todoList
+          .slice(0)
+          .reverse()
+          .map((item) => (
+            <Box
+              key={item.id}
+              as={motion.div}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0 }}
+              layout
             >
-              delete all
-            </Button>
-          </Stack>
-        )}
+              <Flex justify="space-between" align="center" p=".5rem">
+                <Text>{item.body}</Text>
+                <Text
+                  fontSize="xs"
+                  color="gray.500"
+                  ml="auto"
+                  mr=".5rem"
+                  alignSelf="end"
+                >
+                  {item.createdAt.toLocaleTimeString()}
+                </Text>
+                <CloseButton onClick={() => handleRemove(item.id)} />
+              </Flex>
+              <Divider />
+            </Box>
+          ))}
       </Flex>
       <Stack pos="absolute" left="1" top="1">
         {alerts.map((item, i) => (

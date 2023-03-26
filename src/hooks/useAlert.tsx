@@ -5,7 +5,7 @@ export enum EStatus {
   error = "error",
 }
 
-interface IAlert {
+export interface IAlert {
     id: number;
   isVisible: boolean;
   title: string;
@@ -24,7 +24,7 @@ export const useAlert = () => {
       setAlerts((prev) => prev.filter((item) => item.id !== id));
     };
     const notifie: TNotifie = (title, description, status) => {
-    const id = Math.floor(Math.random() * 1000);
+      const id = new Date().getTime();
 
     setAlerts((prev) => [
         ...prev,

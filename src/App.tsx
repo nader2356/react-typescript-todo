@@ -16,7 +16,7 @@ const App: React.FC = () => {
       <Main />
       <IconButton
         aria-label="toggle colormode"
-        icon={colorMode === "light" ? <SunIcon /> : <MoonIcon />}
+        icon={colorMode === "light" ? <SunIcon height="100%" /> : <MoonIcon height="100%" />}
         position="absolute"
        
         top=".5rem"

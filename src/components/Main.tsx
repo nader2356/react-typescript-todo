@@ -80,7 +80,7 @@ const Main: React.FC = () => {
               aria-label="add something to do"
               type="submit"
               p=".3rem"
-              icon={<PlusIcon />}
+              icon={<PlusIcon height="100%" />}
             />
           </HStack>
         </form>

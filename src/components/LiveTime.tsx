@@ -14,7 +14,16 @@ const LiveTime = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return <Text fontSize="md" mt="-0.5rem" color="gray.400">{currentTime}</Text>;
+  return (
+    <Text
+      fontSize="md"
+      mt="-0.5rem"
+      color="gray.400"
+      _dark={{ color: "gray.500" }}
+    >
+      {currentTime}
+    </Text>
+  );
 };
 
 export default LiveTime;

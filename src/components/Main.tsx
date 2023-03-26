@@ -101,6 +101,7 @@ const Main: React.FC = () => {
                 <Text
                   fontSize="xs"
                   color="gray.500"
+                  _dark={{ color: "gray.400" }}
                   ml="auto"
                   mr=".5rem"
                   alignSelf="end"
